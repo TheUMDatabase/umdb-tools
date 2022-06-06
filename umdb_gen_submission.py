@@ -208,7 +208,7 @@ def gen_submission(iso, out):
     iso_walk(iso, report)
 
     with open(out, 'w', encoding='utf8') as f:
-        f.write(json.dumps(report))
+        f.write(json.dumps(report, indent=4))
 
     pprint.pprint(report)
 
