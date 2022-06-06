@@ -7,7 +7,7 @@ Given an ISO file, it will generate a json file with the following informationg
 - Hashes (MD5, CRC32, SHA1, SHA256)
 - ISO PVD Hexdump
 - SFO information
-- File tree with individual SHA1 checksums
+- File tree with individual SHA1 checksums, date and file size
 
 # Requirements
 
