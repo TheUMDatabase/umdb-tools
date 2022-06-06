@@ -159,6 +159,11 @@ def parse_umd_data(raw, out):
     out["umd_data"]["type"] = fields[3].strip(chr(0))
 
 
+def dir_record_date_to_str(date):
+    return f'{1900 + date.years_since_1900}-{date.month:02d}-{date.day_of_month:02d}' \
+        + f' {date.hour:02d}:{date.minute:02d}:{date.second:02d}'
+
+
 def iso_walk(path, out):
     """Generate hashes for all of the ISO files + SFO info dumps"""
     iso = pycdlib.PyCdlib()
@@ -177,10 +182,15 @@ def iso_walk(path, out):
             extracted = BytesIO()
             iso.get_file_from_iso_fp(extracted, iso_path=sfo_file)
             raw_file = extracted.getvalue()
+            record = iso.get_record(iso_path=sfo_file)
 
             sha1 = hashlib.sha1()
             sha1.update(raw_file)
-            out["tree"][full_name] = sha1.hexdigest().zfill(40)
+            out["tree"][full_name] = {
+                'sha1': sha1.hexdigest().zfill(40),
+                'size': len(raw_file),
+                'date': dir_record_date_to_str(record.date)
+            }
 
             if file == 'UMD_DATA.BIN':
                 parse_umd_data(raw_file, out)
