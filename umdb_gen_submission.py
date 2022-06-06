@@ -186,8 +186,12 @@ def iso_walk(path, out):
                 parse_umd_data(raw_file, out)
 
             if file.endswith('.SFO'):
-                sfo = SFO(raw_file)
-                out["sfo_info"][sfo_file] = sfo.dump()
+                try:
+                    sfo = SFO(raw_file)
+                    out["sfo_info"][sfo_file] = sfo.dump()
+                except Exception:
+                    print(f"Unable to read SFO file: {sfo_file}")
+                    out["sfo_info"][sfo_file] = {}
     iso.close()
 
 
