@@ -1,0 +1,7 @@
+# PyInstaller build files
+build/*
+dist/*
+*.spec
+# Local test files
+*.iso
+*.iso.json
